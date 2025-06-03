@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: flask-container
-          image: python-app:latest
+          image: https://hub.docker.com/repository/docker/adamlor/flaskapp/general
           ports:
             - containerPort: 5000
