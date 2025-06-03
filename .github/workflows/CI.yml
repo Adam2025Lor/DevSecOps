@@ -24,8 +24,12 @@ jobs:
     - name: Run Bandit (SAST)
       run: bandit -r app
 
-    - name: Docker build
-      run: docker build -t python-app:latest .
+    - name: Build Docker image
+      run: |
+      ls -l  # Debug: list files in current dir
+      docker build -t python-app:latest .
+      working-directory: ${{ github.workspace }}
+      
 
     - name: Trivy scan
       uses: aquasecurity/trivy-action@master
