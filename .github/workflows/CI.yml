@@ -22,7 +22,7 @@ jobs:
         pip install bandit
 
     - name: Run Bandit (SAST)
-      continue-on-error: true
+      continue-on-error: false
       run: bandit -r .
 
     - name: Build Docker image
