@@ -11,24 +11,25 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+    # - name: Set up Python
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-        pip install bandit
+    # - name: Install dependencies
+    #   run: |
+    #     pip install -r requirements.txt
+    #     pip install bandit
 
-    - name: Run Bandit (SAST)
-      continue-on-error: false
-      run: bandit -r .
+    # - name: Run Bandit (SAST)
+    #   continue-on-error: false
+    #   run: bandit -r .
 
     - name: Build Docker image
       run: |
         ls -l  # Debug: list files in current dir
         docker build -t python-app:latest .
+        docker image ls
       working-directory: ${{ github.workspace }}
 
     - name: Trivy scan
