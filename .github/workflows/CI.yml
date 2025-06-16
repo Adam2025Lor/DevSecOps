@@ -30,7 +30,9 @@ jobs:
         ls -l  # Debug: list files in current dir
         docker build -t adam-python:latest .
         docker image ls
-      working-directory: ${{ github.workspace }}
+        docker image push adamlor/adam-python:latest
+      # working-directory: ${{ github.workspace }}
+      
 
     # - name: Trivy scan
     #   uses: aquasecurity/trivy-action@master
