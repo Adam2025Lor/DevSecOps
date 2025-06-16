@@ -11,10 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+    # - name: Set up Python
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: '3.11'
 
     - name: Install dependencies
       run: |
@@ -28,11 +28,15 @@ jobs:
     - name: Build Docker image
       run: |
         ls -l  # Debug: list files in current dir
-        docker build -t python-app:latest .
-      working-directory: ${{ github.workspace }}
+        docker build -t adamlor/adam-python:latest .
+        docker image ls
+        docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push adamlor/adam-python:latest
+      # working-directory: ${{ github.workspace }}
+      
 
     - name: Trivy scan
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'python-app:latest'
+        image-ref: 'adamlor/adam-python:latest'
 
