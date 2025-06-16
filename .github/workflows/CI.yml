@@ -16,14 +16,14 @@ jobs:
     #   with:
     #     python-version: '3.11'
 
-    # - name: Install dependencies
-    #   run: |
-    #     pip install -r requirements.txt
-    #     pip install bandit
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install bandit
 
-    # - name: Run Bandit (SAST)
-    #   continue-on-error: false
-    #   run: bandit -r .
+    - name: Run Bandit (SAST)
+      continue-on-error: false
+      run: bandit -r .
 
     - name: Build Docker image
       run: |
@@ -35,8 +35,8 @@ jobs:
       # working-directory: ${{ github.workspace }}
       
 
-    # - name: Trivy scan
-    #   uses: aquasecurity/trivy-action@master
-    #   with:
-    #     image-ref: 'python-app:latest'
+    - name: Trivy scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'adamlor/adam-python:latest'
 
