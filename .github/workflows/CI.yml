@@ -28,7 +28,7 @@ jobs:
     - name: Build Docker image
       run: |
         ls -l  # Debug: list files in current dir
-        docker build -t adam-python:latest .
+        docker build -t adamlor/adam-python:latest .
         docker image ls
         docker push adamlor/adam-python:latest
       # working-directory: ${{ github.workspace }}
