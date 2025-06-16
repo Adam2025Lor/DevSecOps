@@ -30,6 +30,7 @@ jobs:
         ls -l  # Debug: list files in current dir
         docker build -t adamlor/adam-python:latest .
         docker image ls
+        docker login -u adamlor -p dckr_pat_ZdlJsEG7hnDAGd0Hr-25JZX3lVo
         docker push adamlor/adam-python:latest
       # working-directory: ${{ github.workspace }}
       
