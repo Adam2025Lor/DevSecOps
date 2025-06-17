@@ -38,11 +38,20 @@ jobs:
     # Extract short commit SHA
         TAG=$(git rev-parse --short HEAD)
         echo "Using image tag: $TAG"
+
+    # Build Docker image with both tags
         docker build -t adamlor/adam-python:latest -t adamlor/adam-python:$TAG .
+
+    # Show images (for debug)
         docker image ls
+
+    # Log in to Docker Hub
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u adamlor --password-stdin
+
+    # Push both tags
         docker push adamlor/adam-python:latest
-        docker push adamlor/adam-python:$TAG  
+        docker push adamlor/adam-python:$TAG
+
 
     # - name: Trivy scan
     #   uses: aquasecurity/trivy-action@master
