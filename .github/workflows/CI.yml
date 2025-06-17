@@ -33,6 +33,7 @@ jobs:
     #     docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
     #     docker push adamlor/adam-python:latest
     #   # working-directory: ${{ github.workspace }}
+
     - name: Build and Push Docker Image with Tags
       run: |
     # Extract short commit SHA
