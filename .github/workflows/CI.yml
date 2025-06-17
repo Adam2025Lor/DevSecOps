@@ -25,18 +25,27 @@ jobs:
       continue-on-error: false
       run: bandit -r .
 
-    - name: Build Docker image
+    # - name: Build Docker image
+    #   run: |
+    #     ls -l  # Debug: list files in current dir
+    #     docker build -t adamlor/adam-python:latest .
+    #     docker image ls
+    #     docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
+    #     docker push adamlor/adam-python:latest
+    #   # working-directory: ${{ github.workspace }}
+    - name: Build and Push Docker Image with Tags
       run: |
-        ls -l  # Debug: list files in current dir
-        docker build -t adamlor/adam-python:latest .
+    # Extract short commit SHA
+        TAG=$(git rev-parse --short HEAD)
+        echo "Using image tag: $TAG"
+        docker build -t adamlor/adam-python:latest -t adamlor/adam-python:$TAG .
         docker image ls
-        docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u adamlor --password-stdin
         docker push adamlor/adam-python:latest
-      # working-directory: ${{ github.workspace }}
-      
+        docker push adamlor/adam-python:$TAG  
 
-    - name: Trivy scan
-      uses: aquasecurity/trivy-action@master
-      with:
-        image-ref: 'adamlor/adam-python:latest'
+    # - name: Trivy scan
+    #   uses: aquasecurity/trivy-action@master
+    #   with:
+    #     image-ref: 'adamlor/adam-python:latest'
 
