@@ -11,10 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # - name: Set up Python
-    #   uses: actions/setup-python@v4
-    #   with:
-    #     python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
@@ -25,18 +25,32 @@ jobs:
       continue-on-error: false
       run: bandit -r .
 
-    - name: Build Docker image
+    # - name: Build Docker image
+    #   run: |
+    #     ls -l  # Debug: list files in current dir
+    #     docker build -t adamlor/adam-python:latest .
+    #     docker image ls
+    #     docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
+    #     docker push adamlor/adam-python:latest
+
+    - name: Set TAG env variable
+      id: vars
+      run: echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        
+    - name: Build Docker Image with Tags
       run: |
-        ls -l  # Debug: list files in current dir
-        docker build -t adamlor/adam-python:latest .
+        # TAG=$(git rev-parse --short HEAD)
+        docker build -t adamlor/adam-python:$TAG .
         docker image ls
-        docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push adamlor/adam-python:latest
-      # working-directory: ${{ github.workspace }}
-      
+   
 
     - name: Trivy scan
       uses: aquasecurity/trivy-action@master
+      continue-on-error: false
       with:
-        image-ref: 'adamlor/adam-python:latest'
+        image-ref: 'adamlor/adam-python:${{ env.TAG }}'
 
+    - name: Push Docker Image with Tags
+      run: |
+        docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push adamlor/adam-python:${{ env.TAG }}     
