@@ -37,7 +37,7 @@ jobs:
       run: |
     # Extract short commit SHA
         TAG=$(git rev-parse --short HEAD)
-        echo "Using image tag: $TAG"
+        
 
     # Build Docker image with both tags
         docker build -t adamlor/adam-python:latest -t adamlor/adam-python:$TAG .
