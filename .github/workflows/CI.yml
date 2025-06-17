@@ -37,10 +37,11 @@ jobs:
     - name: Build and Push Docker Image with Tags
       run: |
         TAG=$(git rev-parse --short HEAD)
-        docker build -t adamlor/adam-python:latest -t adamlor/adam-python:$TAG .
+        docker build -t adamlor/adam-python:$TAG .
+        # -t adamlor/adam-python:latest
         docker image ls
         docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push adamlor/adam-python:latest
+        # docker push adamlor/adam-python:latest
         docker push adamlor/adam-python:$TAG
     #   # working-directory: ${{ github.workspace }}
     
