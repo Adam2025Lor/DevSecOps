@@ -32,7 +32,7 @@ jobs:
         docker build -t adamlor/adam-python:$TAG .
         docker image ls
         docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push adamlor/adam-python:${{ env.TAG }} 
+        docker push adamlor/adam-python:$TAG
 
     # - name: Trivy scan
     #   uses: aquasecurity/trivy-action@master
