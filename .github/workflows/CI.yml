@@ -37,16 +37,20 @@ jobs:
       id: vars
       run: echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         
-    - name: Build and Push Docker Image with Tags
+    - name: Build Docker Image with Tags
       run: |
         # TAG=$(git rev-parse --short HEAD)
         docker build -t adamlor/adam-python:$TAG .
         docker image ls
-        docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push adamlor/adam-python:${{ env.TAG }}        
+   
 
     - name: Trivy scan
       uses: aquasecurity/trivy-action@master
+      continue-on-error: false
       with:
         image-ref: 'adamlor/adam-python:${{ env.TAG }}'
 
+    - name: Push Docker Image with Tags
+      run: |
+        docker login -u adamlor -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push adamlor/adam-python:${{ env.TAG }}     
